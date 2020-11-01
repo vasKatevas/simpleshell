@@ -164,7 +164,6 @@ void execute(char *input){
 
     parse(parsed_input, input);
     int pid, ppid, status;
-    printf("%s\n", parsed_input[0]);
 
     
     switch (pid = fork()) 
@@ -194,7 +193,8 @@ void redirect_output(char str[2000]){
 
    parse_redirect_output(str,parsed_input);
    remove_spaces(parsed_input[1]);
-   int filefd = open(parsed_input[1], O_WRONLY | O_CREAT, 0660);
+   int tmpfd = dup(STDOUT_FILENO);
+   int filefd = open(parsed_input[1], O_RDWR | O_CREAT | O_CLOEXEC , 0660);
    dup2(filefd, 1);
    execute(parsed_input[0]);
    fdatasync(filefd);
@@ -204,7 +204,16 @@ void redirect_output(char str[2000]){
    }
 
 
+   dup2(tmpfd,STDOUT_FILENO);
+       if (close(tmpfd) != 0)
+    {
+        fprintf(stderr, "error closing file descriptor \n");
+   }
+
 }
+
+
+
 
 void redirect_input(char str[2000]){
 
@@ -212,14 +221,19 @@ void redirect_input(char str[2000]){
     parse_redirect_input(str, parsed_input);
     remove_spaces(parsed_input[1]);
     int filefd = open(parsed_input[1], O_RDONLY,0);
+    int tmpfd = dup(STDIN_FILENO);
     dup2(filefd, STDIN_FILENO);
     execute(parsed_input[0]);
     if (close(filefd) != 0)
     {
         fprintf(stderr, "error closing file descriptor \n");
    }
-   fflush(STDIN_FILENO);
 
+   dup2(tmpfd,STDIN_FILENO);
+       if (close(tmpfd) != 0)
+    {
+        fprintf(stderr, "error closing file descriptor \n");
+   }
 
 }
 

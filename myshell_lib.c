@@ -164,7 +164,6 @@ void execute(char *input){
 
     parse(parsed_input, input);
     int pid, ppid, status;
-    printf("%s\n", parsed_input[0]);
 
     
     switch (pid = fork()) 
@@ -214,6 +213,7 @@ void redirect_output(char str[2000]){
 }
 
 
+<<<<<<< HEAD
 void redirect_output_append(char str[2000]){
 
    char *parsed_input[80];
@@ -239,6 +239,8 @@ void redirect_output_append(char str[2000]){
     }
 
 }
+=======
+>>>>>>> 9139d2f443ef930b6ece524add74d69fea3324f1
 
 
 void redirect_input(char str[2000]){

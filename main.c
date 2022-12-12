@@ -29,6 +29,11 @@ int main(int argc, char *argv[])
        char *parsed_input[10];
 
        int len = strlen(user_input);
+      
+       if(len == 1) //when user presses ENTER (len = 1) it gives Segmentation fault
+       {
+         continue;
+       }
        fputs(user_input, history_fd);
        user_input[len - 1] = '\0';
        fprintf(stderr, "Running command: %s\n", user_input);
@@ -58,12 +63,15 @@ int main(int argc, char *argv[])
        parse(parsed_input, tmp);
 
 
+<<<<<<< HEAD
        if (strcmp(parsed_input[0], ">>") == 0)
        {
            redirect_output_append(user_input);
            flag = 1;
        }
 
+=======
+>>>>>>> 9139d2f443ef930b6ece524add74d69fea3324f1
        /*  ##########  cd  #############  */
        if (strcmp(parsed_input[0], "cd") == 0)
        {

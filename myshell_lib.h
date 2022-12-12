@@ -12,6 +12,7 @@
 	void run_pipe(int pfd[], char str[1024]);
 	void execute(char *msg);
 	void redirect_output(char str[2000]);
+	void redirect_output_append(char str[2000]);
 	void redirect_input(char str[2000]);
 	void history(char* cwd);
 #endif

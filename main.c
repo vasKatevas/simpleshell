@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
    {
        flag = 0;
        memset(user_input,0,sizeof(user_input));
-       fprintf(stderr, "\x1b[01;34;1m[ lol ] -> \x1b[\033[00m");
+       fprintf(stderr, "\x1b[01;34;1m[ shell ] -> \x1b[\033[00m");
 
        read(STDIN_FILENO, user_input, 255);
 
@@ -56,6 +56,13 @@ int main(int argc, char *argv[])
        char tmp[2000];
        strcpy(tmp, user_input);
        parse(parsed_input, tmp);
+
+
+       if (strcmp(parsed_input[0], ">>") == 0)
+       {
+           redirect_output_append(user_input);
+           flag = 1;
+       }
 
        /*  ##########  cd  #############  */
        if (strcmp(parsed_input[0], "cd") == 0)
